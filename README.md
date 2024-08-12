@@ -1,4 +1,4 @@
-## Começando com o Gerenciamento de Projetos de Energia Solar
+## Começando a Aplicação
 
 Este repositório contém o código-fonte do aplicativo prospector-web. ☀️
 

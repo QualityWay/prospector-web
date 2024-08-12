@@ -20,7 +20,7 @@ export default (props) => {
                     <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg p-1'>
                         <div className='p-5'>
                             <YearPicker
-                                label="Ano referência"
+                                label="Ano refer&ecirc;ncia"
                                 value={currentMonths[0]}
                                 onChange={yearChange}
                             />
@@ -39,6 +39,15 @@ export default (props) => {
                                     slotProps={{
                                         day: {
                                             lancamentos,
+                                        },
+                                        nextIconButton: { sx: { display: 'none' } },
+                                        previousIconButton: { sx: { display: 'none' } },
+                                        calendarHeader: {
+                                            sx: {
+                                                '.MuiPickersCalendarHeader-labelContainer': {
+                                                    fontWeight: 'bold',
+                                                },
+                                            }
                                         },
                                     }}
                                 />

@@ -19,6 +19,9 @@ import { YearPicker } from '@/Components/Calendar';
 import { Button } from '@mui/material';
 import NumberInput from '@/Components/NumberInput';
 
+import SaveIcon from '@mui/icons-material/Save';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 export default (props) => {
     const {
         loadingQuery,
@@ -100,11 +103,11 @@ export default (props) => {
                             onChange={yearChange}
                         />
 
-                        <div className='grow text-center text-lg'>Lançamentos dia {`${day}/${month}/${year}`}</div>
+                        <div className='grow text-center text-lg'>Lan&ccedil;amentos dia {`${day}/${month}/${year}`}</div>
 
-                        <Button className='flex-none' variant='contained' color='primary' onClick={() => window.history.back()}>Voltar</Button>
+                        <Button className='flex-none' variant='contained' color='primary' onClick={() => window.history.back()} startIcon={<ArrowBackIcon />}>Voltar</Button>
 
-                        <Button className='flex-none' sx={{ ml: 2 }} type='submit' variant='contained' color='success' form={"form"}>Salvar</Button>
+                        <Button className='flex-none' sx={{ ml: 2 }} type='submit' variant='contained' color='success' form={"form"} startIcon={<SaveIcon />}>Salvar</Button>
                     </div>
 
                     <form id="form" onSubmit={handleSubmit(confirmSave)}>

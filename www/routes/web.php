@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SafraController;
 use Illuminate\Support\Facades\Route;
@@ -32,7 +33,6 @@ Route::prefix('/safra')
     ->middleware(['auth'])
     ->group(
         function () {
-
             Route::get('/{year}/{month}/{day}', [SafraController::class, 'show'])->name('show');
             Route::post('/{year}/{month}/{day}', [SafraController::class, 'upsert'])->name('upsert');
         }

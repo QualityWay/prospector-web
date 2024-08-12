@@ -59,5 +59,7 @@ class SafraController extends Controller
                 SafraHistory::create(collect($object)->toArray());
             }
         }
+
+        return redirect()->route("dashboard");
     }
 }

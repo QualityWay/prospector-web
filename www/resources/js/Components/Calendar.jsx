@@ -19,6 +19,20 @@ export const Calendar = (props) => {
         }
     `;
 
+    const IconBxsCheckSquare = (props) => {
+        return (
+            <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                height="1em"
+                width="1em"
+                {...props}
+            >
+                <path d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm-7.933 13.481l-3.774-3.774 1.414-1.414 2.226 2.226 4.299-5.159 1.537 1.28-5.702 6.841z" />
+            </svg>
+        );
+    }
+
     function SelectedDay(props) {
         const { lancamentos = [], day, outsideCurrentMonth, ...other } = props;
         const isSelected = !outsideCurrentMonth && lancamentos.filter((x) => x.getTime() === day.getTime()).length === 1;
@@ -27,7 +41,7 @@ export const Calendar = (props) => {
             <Badge
                 key={props.day.toString()}
                 overlap="circular"
-                badgeContent={isSelected ? '✅' : undefined}
+                badgeContent={isSelected ? <IconBxsCheckSquare fill='green' /> : undefined}
             >
                 <CustomPickersDay
                     {...other}
@@ -44,19 +58,6 @@ export const Calendar = (props) => {
             <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
                 <DateCalendar
                     views={['day']}
-                    slotProps={
-                        {
-                            nextIconButton: { sx: { display: 'none' } },
-                            previousIconButton: { sx: { display: 'none' } },
-                            calendarHeader: {
-                                sx: {
-                                    '.MuiPickersCalendarHeader-labelContainer': {
-                                        fontWeight: 'bold',
-                                    },
-                                }
-                            },
-                        }
-                    }
                     sx={{
                         backgroundColor: '#fdfbff',
                         borderRadius: 3,

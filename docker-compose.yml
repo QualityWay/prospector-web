@@ -1,0 +1,62 @@
+version: "3"
+
+services:
+  #PostreSql
+  db-postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: prospector_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mcrroot
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./db_script/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network-prospector-web
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    image: laravel_php
+    container_name: prospector-web
+    restart: unless-stopped
+    depends_on:
+      - db-postgres
+    tty: true
+    environment:
+      SERVICE_NAME: prospector-web
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./www:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network-prospector-web
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver-prospector-web
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8090:80"
+    volumes:
+      - ./www:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network-prospector-web
+
+#Docker Networks
+networks:
+  app-network-prospector-web:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata-prospector-web:
+    driver: local

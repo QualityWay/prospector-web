@@ -1,7 +1,6 @@
-# version: "3.8"
+version: "3.8"
 
 services:
-  #PostreSql
   db-postgres:
     image: postgres
     environment:
@@ -11,12 +10,12 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
       - ./db_script/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - app-network-prospector-web
+      - app-network
 
-  #PHP Service
+  # PHP Service
   app:
     build:
       context: .
@@ -35,9 +34,9 @@ services:
       - ./www:/var/www
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
-      - app-network-prospector-web
+      - app-network
 
-  #Nginx Service
+  # Nginx Service
   webserver:
     image: nginx:alpine
     container_name: webserver-prospector-web
@@ -49,14 +48,14 @@ services:
       - ./www:/var/www
       - ./nginx/conf.d/:/etc/nginx/conf.d/
     networks:
-      - app-network-prospector-web
+      - app-network
 
-#Docker Networks
+# Docker Networks
 networks:
-  app-network-prospector-web:
+  app-network:
     driver: bridge
 
-#Volumes
+# Volumes
 volumes:
-  dbdata-prospector-web:
+  postgres_data:
     driver: local

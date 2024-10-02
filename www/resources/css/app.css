@@ -1,3 +1,64 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+    --azul: #00328c; 
+    --cinza-claro: #f3f4f6; 
+    --cinza-escuro: #6b7280
+}
+
+.soft-gray{
+    color: var(--cinza-claro);
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.box-calendar {
+    color: var(--cinza-escuro);     
+    width:calc(100% / 6 + 50px);        
+}
+
+.box-calendar.active{
+    background: var(--azul);
+    color:#f3f4f6
+}
+
+.icon-size{ 
+    font-size: 14px !important;
+}
+
+.box-calendar.active:hover{
+    background: #01163d;    
+}
+
+.box-calendar::first-letter{
+    text-transform: uppercase;
+}
+
+.bg-cinza-claro {
+    background-color: var(--cinza-claro);
+}
+
+/* pagina interna safra */
+
+.form-safra form input {
+    border: 1px solid #c7c2c3;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.form-safra form .text-center{
+    text-align: center;
+}
+
+
+
+@media (max-width: 640px) {
+    .box-calendar {
+        width: 100%;
+    }
+}

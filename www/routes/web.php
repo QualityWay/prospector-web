@@ -33,8 +33,8 @@ Route::prefix('/safra')
     ->middleware(['auth'])
     ->group(
         function () {
-            Route::get('/{year}/{month}/{day}', [SafraController::class, 'show'])->name('show');
-            Route::post('/{year}/{month}/{day}', [SafraController::class, 'upsert'])->name('upsert');
+            Route::get('/{year}/{month}', [SafraController::class, 'show'])->name('show');
+            Route::post('/{year}/{month}', [SafraController::class, 'upsert'])->name('upsert');
         }
     );
 

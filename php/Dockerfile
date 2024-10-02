@@ -50,12 +50,12 @@ RUN chmod -R 777 /var/www/public
 ENV TZ=America/Sao_Paulo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-COPY ./php/entrypoint.sh /entrypoint.sh
-RUN chmod 0700 /entrypoint.sh
+# COPY ./php/entrypoint.sh /entrypoint.sh
+# RUN chmod 0700 /entrypoint.sh
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 
-ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["php-fpm"]

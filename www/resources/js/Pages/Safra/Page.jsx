@@ -1,137 +1,240 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-
 import { SafraContex } from '@/Context/SafraContex';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Loading from '@/Components/Loading';
-
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { Table, TableBody, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { YearPicker } from '@/Components/Calendar';
-
-import { Button } from '@mui/material';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import NumberInput from '@/Components/NumberInput';
-
 import SaveIcon from '@mui/icons-material/Save';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-export default (props) => {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#00328c',
+        color: theme.palette.common.white,
+        fontFamily: '"Figtree", sans-serif',
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        fontFamily: '"Figtree", sans-serif',
+    },
+    [`&.group`]: {
+        backgroundColor: '#c8dbf2',
+        fontWeight: 'bold'
+    },
+}));
+
+const FormControl = ({ index, value, suffix, register, control, onChange }) => (
+    <NumberInput
+        value={value}
+        thousandSeparator="."
+        decimalSeparator=","
+        decimalScale={3}
+        fixedDecimalScale
+        suffix={suffix}
+        {...register(`lancamentos.${index}.value`)}
+        control={control}
+        onChange={(event) => onChange(`lancamentos.${index}.value`, event.target.value)} 
+    />
+);
+
+const createPairs = (arr) => {
+    const result = [];
+    let tempPair = null;
+
+    arr.forEach((field) => {
+        if (field.isGroup) {            
+            if (tempPair) {
+                result.push(tempPair); 
+                tempPair = null; 
+            }
+            result.push([field]); 
+        } else {            
+            if (!tempPair) {
+                tempPair = field; 
+            } else {
+                result.push([tempPair, field]); 
+                tempPair = null; 
+            }
+        }
+    });
+    
+    if (tempPair) {
+        result.push([tempPair]);
+    }
+
+    return result;
+};
+
+const TableItem = ({ title, value, isGroup, lineNumber, index, suffix, register, control, onChange, isMeta }) => {
+    return (
+        <StyledTableCell colSpan={isGroup ? 3 : 1} className={isGroup ? "group" : ""}>
+            <div>
+                <h4>{title}</h4>
+                {!isGroup && (
+                    <FormControl
+                        index={index}
+                        value={value}
+                        suffix={suffix}
+                        register={register}
+                        control={control}
+                        onChange={onChange}
+                        lineNumber={lineNumber}
+                        isMeta={isMeta}
+                    />
+                )}
+            </div>
+        </StyledTableCell>
+    );
+};
+
+const Page = (props) => {
     const {
         loadingQuery,
         year,
         month,
-        day,
         yearChange,
         confirmSave,
         register,
         fields,
         handleSubmit,
         control,
-        lancamento,
+        lancamento,      
     } = useContext(SafraContex);
 
 
-    function FormControl({ ...props }) {
-        return <NumberInput
-            {...props}
-            thousandSeparator='.'
-            decimalSeparator=','
-            decimalScale={3}
-            fixedDecimalScale
-            {...register(`lancamentos.${props.index}.value`)}
-            control={control}
-        />
-    }
+    const [calculatedPercentages, setCalculatedPercentages] = useState([]); 
+    const pairs = createPairs(fields);
 
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            backgroundColor: '#4d3af7',
-            color: theme.palette.common.white,
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-        },
-        [`&.group`]: {
-            backgroundColor: '#c8dbf2',
+
+    const handleChange = (name, value, lineNumber, isMeta) => {
+        const updatedLancamentos = [...lancamento];        
+
+        // Captura o valor numérico do input
+        const numericValueStr = value.match(/[\d,.]+/g)?.pop();
+        const numericValue = numericValueStr ? parseFloat(numericValueStr.replace(',', '.')) : 0;
+
+        // Atualiza o lançamento na linha correspondente
+        updatedLancamentos[lineNumber] = {
+            ...updatedLancamentos[lineNumber],
+            value: numericValue,
+            linha: lineNumber,
+            isMeta: isMeta
+        };
+
+        // Cálculo da porcentagem
+        const metaValue = updatedLancamentos[lineNumber]?.isMeta ? updatedLancamentos[lineNumber].value : updatedLancamentos[lineNumber - 1]?.value;
+
+        if (metaValue && metaValue > 0) {
+            const calculatedPercentage = (numericValue / metaValue) * 100;
+            updatedLancamentos[lineNumber].percentage = calculatedPercentage;
+            setCalculatedPercentages((prev) => {
+                const newPercentages = [...prev];
+                newPercentages[lineNumber] = calculatedPercentage; 
+                return newPercentages;
+            });
+        } else {
+            updatedLancamentos[lineNumber].percentage = '-';
+            setCalculatedPercentages((prev) => {
+                const newPercentages = [...prev];
+                newPercentages[lineNumber] = null; 
+                return newPercentages;
+            });
         }
-    }));
+    };
 
-    const TabSpace = (numSpace) => {
-        if (numSpace === 1) {
-            return <span className='inline-block ml-4' />;
-        } else if (numSpace === 2) {
-            return <span className='inline-block ml-8' />;
-        } else if (numSpace === 3) {
-            return <span className='inline-block ml-12' />;
-        } else if (numSpace === 4) {
-            return <span className='inline-block ml-14' />;
-        }
-
-        return '';
-    }
-
-    const TableItem = ({ title, tabspace = 0, isGroup = false, ...props }) =>
-        <TableRow hover={!isGroup}>
-            <StyledTableCell className={isGroup ? 'group' : ''}>
-                {TabSpace(tabspace)}
-                <b>{title}</b>
-            </StyledTableCell>
-            <StyledTableCell className={isGroup ? 'group' : ''}>
-                {!isGroup ? <FormControl {...props} /> : ''}
-            </StyledTableCell>
-        </TableRow >
+    const onSubmit = (data) => {
+        console.log(data); 
+        confirmSave(data);
+    };
 
     return (
         <AuthenticatedLayout user={props.auth.user}>
-            <Head title='Dashboard' />
-
+            <Head title="Dashboard" />
             <Loading loading={loadingQuery} />
-            <div className='py-4'>
-                <div className='max-w-max mx-auto sm:px-3 lg:px-4 divide-y'>
-                    <div className='flex py-2'>
+            <div className="py-16 form-safra">
+                <div className="max-w-max mx-auto sm:px-3 lg:px-4 divide-y">
+                    <div className="flex py-2">
                         <YearPicker
-                            className='flex-none w-14 h-14'
-                            label='Safra'
+                            className="flex-none w-14 h-14"
+                            label="Safra"
                             defaultValue={lancamento.safra || new Date()}
                             onChange={yearChange}
                         />
-
-                        <div className='grow text-center text-lg'>Lan&ccedil;amentos dia {`${day}/${month}/${year}`}</div>
-
-                        <Button className='flex-none' variant='contained' color='primary' onClick={() => window.history.back()} startIcon={<ArrowBackIcon />}>Voltar</Button>
-
-                        <Button className='flex-none' sx={{ ml: 2 }} type='submit' variant='contained' color='success' form={"form"} startIcon={<SaveIcon />}>Salvar</Button>
+                        <div className="grow text-center text-lg">Lançamentos dia {`${month}/${year}`}</div>
+                        <Button
+                            className="flex-none"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => window.history.back()}
+                            startIcon={<ArrowBackIcon />}
+                        >
+                            Voltar
+                        </Button>
+                        <Button
+                            className="flex-none"
+                            sx={{ ml: 2 }}
+                            type="submit"
+                            variant="contained"
+                            color="success"
+                            form="form"
+                            startIcon={<SaveIcon />}
+                        >
+                            Salvar
+                        </Button>
                     </div>
-
-                    <form id="form" onSubmit={handleSubmit(confirmSave)}>
+                    <form id="form" onSubmit={handleSubmit(onSubmit)} className="mt-8">
                         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                             <TableContainer sx={{ maxHeight: '80vh' }}>
-                                <Table stickyHeader sx={{ minWidth: 800 }}>
+                                <Table stickyHeader sx={{ minWidth: 900 }}>
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell>Item</StyledTableCell>
-                                            <StyledTableCell align='right'>Valor</StyledTableCell>
+                                            <StyledTableCell>Valores do Item</StyledTableCell>
+                                            <StyledTableCell>Valores Meta</StyledTableCell>
+                                            <StyledTableCell className='text-center'>% da Meta</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {fields.map((field, index) =>
-                                            <TableItem key={index} name={field.name} title={field.title} suffix={field.suffix} isGroup={field.isGroup} tabspace={field.tabspace} index={index} value={field.value} />
-                                        )}
+                                        {pairs.map((pair, rowIndex) => ( 
+                                            <TableRow key={rowIndex}>
+                                                {pair.map((field, colIndex) => (
+                                                    <TableItem
+                                                        key={colIndex}
+                                                        lineNumber={rowIndex} 
+                                                        index={rowIndex * 2 + colIndex} 
+                                                        title={field.title}
+                                                        value={field.value}
+                                                        isGroup={field.isGroup}
+                                                        suffix={field.suffix} 
+                                                        register={register} 
+                                                        control={control}
+                                                        isMeta={field.isMeta}
+                                                        onChange={(name, value) => handleChange(name, value, rowIndex, field.isMeta)} 
+                                                    />
+                                                ))}
+                                                {!pair.some(field => field.isGroup) && (
+                                                    <StyledTableCell className='text-center'>
+                                                        <div>
+                                                            {calculatedPercentages[rowIndex] !== undefined 
+                                                                ? calculatedPercentages[rowIndex] + '%' 
+                                                                : '-'}
+                                                        </div>                                                   
+                                                    </StyledTableCell>
+                                                )}
+                                            </TableRow>
+                                        ))}
                                     </TableBody>
                                 </Table>
                             </TableContainer>
                         </Paper>
-
                     </form>
                 </div>
             </div>
         </AuthenticatedLayout>
     );
 };
+
+export default Page;

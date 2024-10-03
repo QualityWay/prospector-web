@@ -37,9 +37,10 @@ class SafraController extends Controller
     public function show($year, $month)
     {
         
+        
         $lancamento = SafraHistory::whereYear('data', $year)
                                 ->whereMonth('data', $month)
-                                ->first() ?? [];
+                                ->first() ?? [];        
 
         return Inertia::render('Safra/Index', [
             'year'          => $year,
@@ -52,7 +53,7 @@ class SafraController extends Controller
      * Store/Update a newly created resource in storage.
      */
     public function upsert(Request $request, $year, $month)
-    {       
+    {          
         $month = str_pad($month, 2, '0', STR_PAD_LEFT);
         
         if ($request->lancamentos) {

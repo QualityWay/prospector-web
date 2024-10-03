@@ -45,51 +45,55 @@ const createPairs = (arr) => {
     const result = [];
     let tempPair = null;
 
-    arr.forEach((field) => {
+    arr.forEach((field, index) => {       
         if (field.isGroup) {            
+            
             if (tempPair) {
                 result.push(tempPair); 
                 tempPair = null; 
             }
-            result.push([field]); 
+           
+            result.push([{ ...field, index }]); 
         } else {            
-            if (!tempPair) {
-                tempPair = field; 
-            } else {
-                result.push([tempPair, field]); 
+            if (!tempPair) {                
+                tempPair = { ...field, index }; 
+            } else {               
+                result.push([{ ...tempPair }, { ...field, index }]); 
                 tempPair = null; 
             }
         }
-    });
+    });    
     
     if (tempPair) {
-        result.push([tempPair]);
+        result.push([{ ...tempPair }]); 
     }
 
     return result;
 };
 
-const TableItem = ({ title, value, isGroup, lineNumber, index, suffix, register, control, onChange, isMeta }) => {
-    return (
-        <StyledTableCell colSpan={isGroup ? 3 : 1} className={isGroup ? "group" : ""}>
-            <div>
-                <h4>{title}</h4>
-                {!isGroup && (
-                    <FormControl
-                        index={index}
-                        value={value}
-                        suffix={suffix}
-                        register={register}
-                        control={control}
-                        onChange={onChange}
-                        lineNumber={lineNumber}
-                        isMeta={isMeta}
-                    />
-                )}
-            </div>
-        </StyledTableCell>
-    );
-};
+const TableItem = ({ title, value, isGroup, lineNumber, index, suffix, register, control, onChange, isMeta }) => (
+    
+    
+    <StyledTableCell colSpan={isGroup ? 3 : 1} className={isGroup ? "group" : ""}>
+
+        
+        <div>
+            <h4>{title}</h4>             
+            {!isGroup && (
+                <FormControl
+                    index={index}
+                    value={value} 
+                    suffix={suffix}
+                    register={register}
+                    control={control}
+                    onChange={onChange}
+                    lineNumber={lineNumber}
+                    isMeta={isMeta}                    
+                />
+            )}
+        </div>
+    </StyledTableCell>
+);
 
 const Page = (props) => {
     const {
@@ -103,48 +107,13 @@ const Page = (props) => {
         handleSubmit,
         control,
         lancamento,      
-    } = useContext(SafraContex);
-
+    } = useContext(SafraContex);        
 
     const [calculatedPercentages, setCalculatedPercentages] = useState([]); 
     const pairs = createPairs(fields);
 
-
-    const handleChange = (name, value, lineNumber, isMeta) => {
-        const updatedLancamentos = [...lancamento];        
-
-        // Captura o valor numérico do input
-        const numericValueStr = value.match(/[\d,.]+/g)?.pop();
-        const numericValue = numericValueStr ? parseFloat(numericValueStr.replace(',', '.')) : 0;
-
-        // Atualiza o lançamento na linha correspondente
-        updatedLancamentos[lineNumber] = {
-            ...updatedLancamentos[lineNumber],
-            value: numericValue,
-            linha: lineNumber,
-            isMeta: isMeta
-        };
-
-        // Cálculo da porcentagem
-        const metaValue = updatedLancamentos[lineNumber]?.isMeta ? updatedLancamentos[lineNumber].value : updatedLancamentos[lineNumber - 1]?.value;
-
-        if (metaValue && metaValue > 0) {
-            const calculatedPercentage = (numericValue / metaValue) * 100;
-            updatedLancamentos[lineNumber].percentage = calculatedPercentage;
-            setCalculatedPercentages((prev) => {
-                const newPercentages = [...prev];
-                newPercentages[lineNumber] = calculatedPercentage; 
-                return newPercentages;
-            });
-        } else {
-            updatedLancamentos[lineNumber].percentage = '-';
-            setCalculatedPercentages((prev) => {
-                const newPercentages = [...prev];
-                newPercentages[lineNumber] = null; 
-                return newPercentages;
-            });
-        }
-    };
+    console.log(lancamento.safra)
+    
 
     const onSubmit = (data) => {
         console.log(data); 
@@ -153,6 +122,7 @@ const Page = (props) => {
 
     return (
         <AuthenticatedLayout user={props.auth.user}>
+            
             <Head title="Dashboard" />
             <Loading loading={loadingQuery} />
             <div className="py-16 form-safra">
@@ -160,8 +130,8 @@ const Page = (props) => {
                     <div className="flex py-2">
                         <YearPicker
                             className="flex-none w-14 h-14"
-                            label="Safra"
-                            defaultValue={lancamento.safra || new Date()}
+                            label="Safra"                                
+                            value={lancamento.safra}
                             onChange={yearChange}
                         />
                         <div className="grow text-center text-lg">Lançamentos dia {`${month}/${year}`}</div>
@@ -198,30 +168,35 @@ const Page = (props) => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {pairs.map((pair, rowIndex) => ( 
+                                        {pairs.map((pair, rowIndex) => (
                                             <TableRow key={rowIndex}>
-                                                {pair.map((field, colIndex) => (
-                                                    <TableItem
-                                                        key={colIndex}
-                                                        lineNumber={rowIndex} 
-                                                        index={rowIndex * 2 + colIndex} 
-                                                        title={field.title}
-                                                        value={field.value}
-                                                        isGroup={field.isGroup}
-                                                        suffix={field.suffix} 
-                                                        register={register} 
-                                                        control={control}
-                                                        isMeta={field.isMeta}
-                                                        onChange={(name, value) => handleChange(name, value, rowIndex, field.isMeta)} 
-                                                    />
-                                                ))}
+                                                {pair.map((field, colIndex) => {
+                                                   
+                                                    return (
+                                                        <TableItem
+                                                            key={colIndex}
+                                                            lineNumber={rowIndex}
+                                                            index={field.index} 
+                                                            title={field.title}                                                            
+                                                            isGroup={field.isGroup}
+                                                            suffix={field.suffix}
+                                                            register={register}
+                                                            control={control}
+                                                            isMeta={field.isMeta}
+                                                            value={field.value}
+                                                            // onChange={(name, value) => handleChange(name, value, rowIndex, field.isMeta)}
+                                                        />
+                                                    );
+                                                })}
                                                 {!pair.some(field => field.isGroup) && (
                                                     <StyledTableCell className='text-center'>
                                                         <div>
-                                                            {calculatedPercentages[rowIndex] !== undefined 
-                                                                ? calculatedPercentages[rowIndex] + '%' 
-                                                                : '-'}
-                                                        </div>                                                   
+                                                            {/* {calculatedPercentages[rowIndex] !== undefined
+                                                                ? calculatedPercentages[rowIndex] + '%'
+                                                                : '-'} */}
+
+                                                                %
+                                                        </div>
                                                     </StyledTableCell>
                                                 )}
                                             </TableRow>

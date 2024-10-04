@@ -119,11 +119,6 @@ const Page = (props) => {
         return pairs.map(() => ({ value1: 0, value2: 0, total: 0 }));
     });
 
-    const onSubmit = (data) => {
-        console.log(data); 
-        confirmSave(data);
-    };
-
     const handleChange = (newValue, lineNumber, isMeta) => {
         const updatedValues = [...inputValues]; 
         const currentValues = { ...updatedValues[lineNumber] }; 
@@ -145,9 +140,8 @@ const Page = (props) => {
         }
     
         updatedValues[lineNumber] = currentValues; 
-        setInputValues(updatedValues); 
-    
-        console.log(`Valores Atualizados: ${JSON.stringify(currentValues)}, Total: ${currentValues.total}`);
+        setInputValues(updatedValues);     
+       
     };
 
     return (

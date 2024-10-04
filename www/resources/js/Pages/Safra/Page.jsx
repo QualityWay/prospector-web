@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { SafraContex } from '@/Context/SafraContex';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import Loading from '@/Components/Loading';
 import { styled } from '@mui/material/styles';
 import { Table, TableBody, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
@@ -10,6 +10,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import NumberInput from '@/Components/NumberInput';
 import SaveIcon from '@mui/icons-material/Save';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -27,19 +28,28 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-const FormControl = ({ index, value, suffix, register, control, onChange }) => (
-    <NumberInput
-        value={value}
-        thousandSeparator="."
-        decimalSeparator=","
-        decimalScale={3}
-        fixedDecimalScale
-        suffix={suffix}
-        {...register(`lancamentos.${index}.value`)}
-        control={control}
-        onChange={(event) => onChange(`lancamentos.${index}.value`, event.target.value)} 
-    />
-);
+
+
+const FormControl = ({ index, value, suffix, register, control, onChange, lineNumber, isMeta }) => {
+    const handleInputChange = (event) => {
+        const newValue = event.target.value; 
+        onChange(newValue, lineNumber, isMeta); 
+    };
+
+    return (
+        <NumberInput
+            value={value}
+            thousandSeparator="."
+            decimalSeparator=","
+            decimalScale={3}
+            fixedDecimalScale
+            suffix={suffix}
+            {...register(`lancamentos.${index}.value`)} // Registra o input
+            control={control}
+            onChange={handleInputChange} // Usa o novo manipulador
+        />
+    );
+};
 
 const createPairs = (arr) => {
     const result = [];
@@ -47,12 +57,10 @@ const createPairs = (arr) => {
 
     arr.forEach((field, index) => {       
         if (field.isGroup) {            
-            
             if (tempPair) {
                 result.push(tempPair); 
                 tempPair = null; 
             }
-           
             result.push([{ ...field, index }]); 
         } else {            
             if (!tempPair) {                
@@ -71,12 +79,8 @@ const createPairs = (arr) => {
     return result;
 };
 
-const TableItem = ({ title, value, isGroup, lineNumber, index, suffix, register, control, onChange, isMeta }) => (
-    
-    
-    <StyledTableCell colSpan={isGroup ? 3 : 1} className={isGroup ? "group" : ""}>
-
-        
+const TableItem = ({ title, value, isGroup, lineNumber, index, suffix, register, control, onChange, isMeta }) => (    
+    <StyledTableCell colSpan={isGroup ? 3 : 1} className={isGroup ? "group" : ""}>        
         <div>
             <h4>{title}</h4>             
             {!isGroup && (
@@ -85,10 +89,10 @@ const TableItem = ({ title, value, isGroup, lineNumber, index, suffix, register,
                     value={value} 
                     suffix={suffix}
                     register={register}
-                    control={control}
-                    onChange={onChange}
+                    control={control}                   
                     lineNumber={lineNumber}
-                    isMeta={isMeta}                    
+                    onChange={onChange}
+                    isMeta={isMeta}                     
                 />
             )}
         </div>
@@ -108,21 +112,46 @@ const Page = (props) => {
         control,
         lancamento,      
     } = useContext(SafraContex);        
-
-    const [calculatedPercentages, setCalculatedPercentages] = useState([]); 
-    const pairs = createPairs(fields);
-
-    console.log(lancamento.safra)
+   
     
+    const pairs = createPairs(fields);  
+    const [inputValues, setInputValues] = useState(() => {       
+        return pairs.map(() => ({ value1: 0, value2: 0, total: 0 }));
+    });
 
     const onSubmit = (data) => {
         console.log(data); 
         confirmSave(data);
     };
 
+    const handleChange = (newValue, lineNumber, isMeta) => {
+        const updatedValues = [...inputValues]; 
+        const currentValues = { ...updatedValues[lineNumber] }; 
+    
+        // Atualiza o valor correto com base em isMeta
+        if (isMeta) {
+            currentValues.value2 = parseFloat(newValue) || 0;
+        } else {
+            currentValues.value1 = parseFloat(newValue) || 0;
+        }
+    
+        // Verifica se value2 é 0 ou não e calcula o total
+        if (currentValues.value2 === 0) {
+            currentValues.total = NaN; 
+        } else if (currentValues.value1 !== 0) {
+            currentValues.total = (currentValues.value1 / currentValues.value2) * 100; 
+        } else {
+            currentValues.total = 0; 
+        }
+    
+        updatedValues[lineNumber] = currentValues; 
+        setInputValues(updatedValues); 
+    
+        console.log(`Valores Atualizados: ${JSON.stringify(currentValues)}, Total: ${currentValues.total}`);
+    };
+
     return (
         <AuthenticatedLayout user={props.auth.user}>
-            
             <Head title="Dashboard" />
             <Loading loading={loadingQuery} />
             <div className="py-16 form-safra">
@@ -171,7 +200,6 @@ const Page = (props) => {
                                         {pairs.map((pair, rowIndex) => (
                                             <TableRow key={rowIndex}>
                                                 {pair.map((field, colIndex) => {
-                                                   
                                                     return (
                                                         <TableItem
                                                             key={colIndex}
@@ -184,19 +212,19 @@ const Page = (props) => {
                                                             control={control}
                                                             isMeta={field.isMeta}
                                                             value={field.value}
-                                                            // onChange={(name, value) => handleChange(name, value, rowIndex, field.isMeta)}
+                                                            onChange={handleChange}                                                            
                                                         />
                                                     );
                                                 })}
                                                 {!pair.some(field => field.isGroup) && (
                                                     <StyledTableCell className='text-center'>
-                                                        <div>
-                                                            {/* {calculatedPercentages[rowIndex] !== undefined
-                                                                ? calculatedPercentages[rowIndex] + '%'
-                                                                : '-'} */}
-
-                                                                %
-                                                        </div>
+                                                    <div>
+                                                        {inputValues[rowIndex]?.value1 === 0 && inputValues[rowIndex]?.value2 === 0
+                                                            ? '-' 
+                                                            : (inputValues[rowIndex]?.value1 !== 0 && (inputValues[rowIndex]?.value2 === 0 || isNaN(inputValues[rowIndex]?.total)))
+                                                            ? '-'
+                                                            : `${inputValues[rowIndex]?.total}%`} 
+                                                    </div>
                                                     </StyledTableCell>
                                                 )}
                                             </TableRow>

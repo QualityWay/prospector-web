@@ -119,6 +119,10 @@ const Page = (props) => {
         return pairs.map(() => ({ value1: 0, value2: 0, total: 0 }));
     });
 
+    const onSubmit = (data) => {        
+        confirmSave(data);
+    };
+
     const handleChange = (newValue, lineNumber, isMeta) => {
         const updatedValues = [...inputValues]; 
         const currentValues = { ...updatedValues[lineNumber] }; 
@@ -141,7 +145,7 @@ const Page = (props) => {
     
         updatedValues[lineNumber] = currentValues; 
         setInputValues(updatedValues);     
-       
+        
     };
 
     return (

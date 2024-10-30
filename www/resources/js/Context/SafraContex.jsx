@@ -292,9 +292,7 @@ export const SafraProvider = ({ children }) => {
             { name: 'consumo_energia_vila', title: 'Consumo de Energia Vila', suffix: ' Mvh', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.consumo_energia_vila || null },
             { name: 'consumo_energia_vila_meta', title: 'Consumo de Energia Vila Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.consumo_energia_vila_meta || null },
 
-            { name: 'consumo_energia_industria', title: 'Consumo de energia Indústria (13 kw/ tch)', suffix: ' Mvh', isGroup: false,isMeta: false, tabspace: 2, value: lancamento.consumo_energia_industria || null },
-            { name: 'consumo_energia_industria_meta', title: 'Consumo de energia Indústria (13 kw/ tch) Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.consumo_energia_industria_meta || null },
-
+           
             { name: 'consumo_energia_silo_armazem_graos', title: 'Consumo de Energia Silo Armazem de Grãos', suffix: ' Mvh', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.consumo_energia_silo_armazem_graos || null },
             { name: 'consumo_energia_silo_armazem_graos_meta', title: 'Consumo de Energia Silo Armazem de Grãos Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.consumo_energia_silo_armazem_graos_meta || null },
 

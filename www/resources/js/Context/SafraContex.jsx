@@ -32,17 +32,15 @@ export const SafraProvider = ({ children }) => {
             { name: '', title: 'DADOS EXTRAÇÃO', suffix: '', isGroup: true, tabspace: 0, value: null },
             { name: 'toneladas_art', title: 'Toneladas ART', suffix: ' ton', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.toneladas_art || null },
             { name: 'toneladas_art_meta', title: 'Toneladas ART Meta', suffix: ' ton', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.toneladas_art_meta || null },
+
             { name: 'cana_safra', title: 'Cana Safra', suffix: ' t/mês', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.cana_safra || null },
             { name: 'cana_safra_meta', title: 'Cana Safra Meta', suffix: ' t/mês', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.cana_safra_meta || null },
+
             { name: 'moagem_horaria', title: 'Moagem Horária', suffix: ' t/h', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.moagem_horaria || null },
-            { name: 'moagem_horaria_meta', title: 'Moagem Horária Meta', suffix: ' t/h', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.moagem_horaria_meta || null },
-            { name: 'extracao_moenda', title: 'Extração Moenda', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.extracao_moenda || null },
-            { name: 'extracao_moenda_meta', title: 'Extração Moenda Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.extracao_moenda_meta || null },
-            { name: 'moagem_horaria', title: 'Moagem Horária', suffix: ' t/h', isGroup: false, tabspace: 1, value: lancamento.moagem_horaria || null },
             { name: 'moagem_horaria_meta', title: 'Moagem Horária Meta', suffix: ' t/h', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.moagem_horaria_meta || null },
 
             { name: 'extracao_moenda', title: 'Extração Moenda', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.extracao_moenda || null },
-            { name: 'extracao_moenda_meta', title: 'Extração Moenda Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.extracao_moenda_meta || null },
+            { name: 'extracao_moenda_meta', title: 'Extração Moenda Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.extracao_moenda_meta || null },            
 
             { name: 'moagem_real_media', title: 'Moagem real média', suffix: ' t/dia', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.moagem_real_media || null },
             { name: 'moagem_real_media_meta', title: 'Moagem real média Meta', suffix: ' t/dia', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.moagem_real_media_meta || null },
@@ -52,16 +50,16 @@ export const SafraProvider = ({ children }) => {
             { name: '', title: 'DADOS DA MATÉRIA PRIMA', suffix: '', isGroup: true, tabspace: 0, value: null },
 
             { name: 'brix_cana', title: 'Brix % cana', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.brix_cana || null },
-            { name: 'brix_cana_meta', title: 'Brix % cana Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.brix_cana || null },
+            { name: 'brix_cana_meta', title: 'Brix % cana Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.brix_cana_meta || null },
 
             { name: 'pol_cana', title: 'Pol % Cana', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.pol_cana || null },
-            { name: 'pol_cana_meta', title: 'Pol % Cana Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.pol_cana || null },
+            { name: 'pol_cana_meta', title: 'Pol % Cana Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.pol_cana_meta || null },
 
             { name: 'pureza_cana', title: 'Pureza % Cana', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.pureza_cana || null },
-            { name: 'pureza_cana_meta', title: 'Pureza % Cana Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.pureza_cana || null },
+            { name: 'pureza_cana_meta', title: 'Pureza % Cana Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.pureza_cana_meta || null },
 
             { name: 'fibra_cana', title: 'Fibra % Cana', suffix: ' %', isGroup: false, tabspace: 1, value: lancamento.fibra_cana || null },
-            { name: 'fibra_cana_meta', title: 'Fibra % Cana Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.fibra_can_meta || null },
+            { name: 'fibra_cana_meta', title: 'Fibra % Cana Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.fibra_cana_meta || null },
 
             { name: 'umidade', title: 'Umidade %', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.umidade || null },
             { name: 'umidade_meta', title: 'Umidade % Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.umidade_meta || null },
@@ -87,7 +85,7 @@ export const SafraProvider = ({ children }) => {
             { name: '', title: 'DADOS DE PERDAS', suffix: '', isGroup: true, tabspace: 0, value: null },
 
             { name: 'perda_lavagem_cana', title: 'Perda Lavagem de Cana', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.perda_lavagem_cana || null },
-            { name: 'perda_lavagem_cana', title: 'Perda Lavagem de Cana Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.perda_lavagem_cana || null },
+            { name: 'perda_lavagem_cana_meta', title: 'Perda Lavagem de Cana Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.perda_lavagem_cana_meta || null },
 
 
             { name: 'perda_extracao', title: 'Perda Extração', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.perda_extracao || null },
@@ -118,47 +116,39 @@ export const SafraProvider = ({ children }) => {
             { name: 'aproveitamento_tempo_industrial', title: 'Aproveitamento Tempo Industrial', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.aproveitamento_tempo_industrial || null },
             { name: 'aproveitamento_tempo_industrial_meta', title: 'Aproveitamento Tempo Industrial Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.aproveitamento_tempo_industrial_meta || null },
 
-            { name: 'aproveitamento_tempo_agrícola', title: 'Aproveitamento Tempo Agrícola (CTT)', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.aproveitamento_tempo_agrícola || null },
-            { name: 'aproveitamento_tempo_agrícola_meta', title: 'Aproveitamento Tempo Agrícola (CTT) Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.aproveitamento_tempo_agrícola_meta || null },
+            { name: 'aproveitamento_tempo_agricola', title: 'Aproveitamento Tempo Agrícola (CTT)', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.aproveitamento_tempo_agricola || null },
+            { name: 'aproveitamento_tempo_agricola_meta', title: 'Aproveitamento Tempo Agrícola (CTT) Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.aproveitamento_tempo_agricola_meta || null },
 
             { name: 'aproveitamento_tempo', title: 'Aproveitamento Tempo (Climático)', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.aproveitamento_tempo || null },
             { name: 'aproveitamento_tempo_meta', title: 'Aproveitamento Tempo (Climático) Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.aproveitamento_tempo_meta || null },
 
-
-            { name: 'dias_safra_consecutivos', title: 'Dias de Safra Consecutivos', suffix: ' dias/mês', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.aproveitamento_tempo || null },
-            { name: 'dias_safra_consecutivos_meta', tit_metale: 'Dias de Safra Consecutivos Meta', suffix: ' dias/mês', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.aproveitamento_tempo_meta || null },
-
+            { name: 'dias_safra_consecutivos', title: 'Dias de Safra Consecutivos', suffix: ' dias/mês', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.dias_safra_consecutivos || null },
+            { name: 'dias_safra_consecutivos_meta', tit_metale: 'Dias de Safra Consecutivos Meta', suffix: ' dias/mês', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.dias_safra_consecutivos_meta || null },
 
             { name: 'dias_safra_efetivo', title: 'Dias de Safra Efetivo (100%)', suffix: ' dias/mês', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.dias_safra_efetivo || null },
             { name: 'dias_safra_efetivo_meta', title: 'Dias de Safra Efetivo (100%) Meta', suffix: ' dias/mês', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.dias_safra_efetivo_meta || null },
 
-
             { name: 'horas_efetiva', title: 'Horas Efetiva', suffix: ' Hr/Mês', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.horas_efetiva || null },
             { name: 'horas_efetiva_meta', title: 'Horas Efetiva Meta', suffix: ' Hr/Mês', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.horas_efetiva_meta || null },
-
 
             { name: 'pol_acucar_produzido', title: 'Pol do Açúcar Produzido', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.pol_acucar_produzido || null },
             { name: 'pol_acucar_produzido_meta', title: 'Pol do Açúcar Produzido', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.pol_acucar_produzido_meta || null },
 
-
             { name: 'alcool_anidro', title: '% Álcool Anidro', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.alcool_anidro || null },
             { name: 'alcool_anidro_meta', title: '% Álcool Anidro Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.alcool_anidro_meta || null },
-
 
             { name: 'alcool_hidratado', title: '% Álcool Hidratado', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.alcool_hidratado || null },
             { name: 'alcool_hidratado_meta', title: '% Álcool Hidratado Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.alcool_hidratado_meta || null },
 
-
             { name: 'alcool_anidro_ciclo_hexano', title: 'Álcool Anidro Ciclo Hexano', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.alcool_anidro_ciclo_hexano || null },
             { name: 'alcool_anidro_ciclo_hexano_meta', title: 'Álcool Anidro Ciclo Hexano Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.alcool_anidro_ciclo_hexano_meta || null },
-
 
             { name: 'alcool_anidro_peneira_molecular', title: 'Álcool Anidro Peneira Molecular', suffix: ' %', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.alcool_anidro_peneira_molecular || null },
             { name: 'alcool_anidro_peneira_molecular_meta', title: 'Álcool Anidro Peneira Molecular Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.alcool_anidro_peneira_molecular_meta || null },
 
+
             // CÁLCULO DAS PERDAS
             { name: '', title: 'CÁLCULO DAS PERDAS', suffix: '', isGroup: true, tabspace: 0, value: null },
-
 
             { name: 'art_perdido_lavagem_cana', title: 'ART Perdido Lavagem de Cana', suffix: ' kg', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.art_perdido_lavagem_cana || null },
             { name: 'art_perdido_lavagem_cana_meta', title: 'ART Perdido Lavagem de Cana Meta', suffix: ' kg', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.art_perdido_lavagem_cana_meta || null },
@@ -187,6 +177,7 @@ export const SafraProvider = ({ children }) => {
             { name: 'art_perdas_indeterminadas', title: 'ART Perdas Indeterminadas', suffix: ' kg', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.art_perdas_indeterminadas || null },
             { name: 'art_perdas_indeterminadas_meta', title: 'ART Perdas Indeterminadas Meta', suffix: ' kg', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.art_perdas_indeterminadas_meta || null },
 
+
             // CÁLCULO DA PRODUÇÃO
             { name: '', title: 'CÁLCULO DA PRODUÇÃO', suffix: '', isGroup: true, tabspace: 0, value: null },
 
@@ -197,8 +188,7 @@ export const SafraProvider = ({ children }) => {
             { name: 'producao_alcool_hidratado_dia_meta', title: 'Produção de Álcool Hidratado Mês Meta', suffix: ' m3/dia', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.producao_alcool_hidratado_dia_meta || null },
 
             { name: 'producao_alcool_hidratado_mes', title: 'Produção de Álcool Mês Hidratado', suffix: ' m3/mês', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.producao_alcool_hidratado_mes || null },
-            { name: 'producao_alcool_hidratado_mes_meta', title: 'Produção de Álcool Hidratado Mês Meta', suffix: ' m3/mês', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.producao_alcool_hidratado_mes_meta || null },
-            
+            { name: 'producao_alcool_hidratado_mes_meta', title: 'Produção de Álcool Hidratado Mês Meta', suffix: ' m3/mês', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.producao_alcool_hidratado_mes_meta || null },            
 
             { name: 'producao_alcool_anidro_dia', title: 'Produção de Álcool Anidro Mês', suffix: ' m3/dia', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.producao_alcool_anidro_dia || null },
             { name: 'producao_alcool_anidro_dia_meta', title: 'Produção de Álcool Anidro Mês Meta', suffix: ' m3/dia', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.producao_alcool_anidro_dia_meta || null },
@@ -230,6 +220,7 @@ export const SafraProvider = ({ children }) => {
             { name: 'alcool_processo', title: 'Álcool em processo', suffix: '  m3/mês', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.alcool_processo || null },
             { name: 'alcool_processo_meta', title: 'Álcool em processo Meta', suffix: '  m3/mês', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.alcool_processo_meta || null },
 
+
             // MIX AÇÚCAR
             { name: '', title: 'MIX AÇÚCAR', suffix: '', isGroup: true, tabspace: 1, value: null },
 
@@ -250,11 +241,11 @@ export const SafraProvider = ({ children }) => {
             { name: '', title: 'GERAÇÃO DE VAPOR', suffix: '', isGroup: true, isMeta: false, tabspace: 0, value: null },
             { name: '', title: 'Produção de vapor Meta', suffix: '', isGroup: true, isMeta: true, tabspace: 1, value: null },
 
-            { name: 'producao_vapor', title: 'Produção de vapor', suffix: ' Ton/hora', isGroup: false,  isMeta: false, tabspace: 2, value: lancamento.producao_vapor || null },
-            { name: 'producao_vapor_meta', title: 'Produção de vapor Meta', suffix: ' Ton/hora', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.producao_vapor_meta || null },
+            { name: 'producao_vapor_hora', title: 'Produção de vapor hora', suffix: ' Ton/hora', isGroup: false,  isMeta: false, tabspace: 2, value: lancamento.producao_vapor_hora || null },
+            { name: 'producao_vapor_hora_meta', title: 'Produção de vapor hora Meta', suffix: ' Ton/hora', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.producao_vapor_hora_meta || null },
 
             { name: 'producao_vapor_mes', title: 'Produção de vapor Mês', suffix: ' Ton/mês', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.producao_vapor_mes || null },
-            { name: 'producao_vapor_mes_meta', title: 'Produção de vapor hora Mês', suffix: ' Ton/mês', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.producao_vapor_hora_mes_meta || null },                  
+            { name: 'producao_vapor_mes_meta', title: 'Produção de vapor Mês', suffix: ' Ton/mês', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.producao_vapor_mes_meta || null },                  
 
             { name: 'consumo_vapor21_bar', title: 'Consumo de Vapor 21 bar para turbinas de processo (0,250)', suffix: ' Tvh/Tch', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.consumo_vapor21_bar || null },
             { name: 'consumo_vapor21_bar_meta', title: 'Consumo de Vapor 21 bar para turbinas de processo (0,250) Meta', suffix: ' Tvh/Tch', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.consumo_vapor21_bar_meta || null },
@@ -281,6 +272,7 @@ export const SafraProvider = ({ children }) => {
 
             { name: 'producao_energia_eletrica_tg2_21_bar', title: 'Produção de energia elétrica TG2 - 21 bar', suffix: ' Mvh', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.producao_energia_eletrica_tg2_21_bar || null },
             { name: 'producao_energia_eletrica_tg2_21_bar_meta', title: 'Produção de energia elétrica TG2 - 21 bar Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.producao_energia_eletrica_tg2_21_bar_meta || null },
+            
 
 
             // Produção de Geração de Energia Elétrica
@@ -291,14 +283,9 @@ export const SafraProvider = ({ children }) => {
 
             { name: 'consumo_energia_vila', title: 'Consumo de Energia Vila', suffix: ' Mvh', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.consumo_energia_vila || null },
             { name: 'consumo_energia_vila_meta', title: 'Consumo de Energia Vila Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.consumo_energia_vila_meta || null },
-
            
             { name: 'consumo_energia_silo_armazem_graos', title: 'Consumo de Energia Silo Armazem de Grãos', suffix: ' Mvh', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.consumo_energia_silo_armazem_graos || null },
             { name: 'consumo_energia_silo_armazem_graos_meta', title: 'Consumo de Energia Silo Armazem de Grãos Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.consumo_energia_silo_armazem_graos_meta || null },
-
-
-            { name: 'consumo_energia_industria', title: 'Consumo de energia Indústria (13 kw/ tch)', suffix: ' Mvh', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.consumo_energia_industria || null },
-            { name: 'consumo_energia_industria_meta', title: 'Consumo de energia Indústria (13 kw/ tch) Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.consumo_energia_industria_meta || null },
 
 
             // Excedente de Energia
@@ -308,26 +295,16 @@ export const SafraProvider = ({ children }) => {
             { name: 'potencial_instalada_requerida_irrigacao_meta', title: 'Potencial Instalada Requerida Irrigação Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.potencial_instalada_requerida_irrigacao_meta || null },
 
             { name: 'potencia_consumida_irrigacao', title: 'Potencia Consumida Irrigação', suffix: ' Mvh', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.potencia_consumida_irrigacao || null },
-            { name: 'potencia_consumida_irrigacao_meta', title: 'Potencia Consumida Irrigação Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.potencia_consumida_irrigacao_meta || null },
+            { name: 'potencia_consumida_irrigacao_meta', title: 'Potencia Consumida Irrigação Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.potencia_consumida_irrigacao_meta || null },       
 
-            { name: 'potencial_instalada_requerida_irrigacao', title: 'Potencial Instalada Requerida Irrigação', suffix: ' Mvh', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.potencial_instalada_requerida_irrigacao || null },
-            { name: 'potencial_instalada_requerida_irrigacao_meta', title: 'Potencial Instalada Requerida Irrigação Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.potencial_instalada_requerida_irrigacao_meta || null },
-
-
+            
             { name: 'meta_disponibilidade_energia_irrigacao', title: 'Meta de disponibilidade de energia Irrigação', suffix: ' %', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.meta_disponibilidade_energia_irrigacao || null },
             { name: 'meta_disponibilidade_energia_irrigacao_meta', title: 'Meta de disponibilidade de energia Irrigação Meta', suffix: ' %', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.meta_disponibilidade_energia_irrigacao_meta || null },
 
 
-            { name: 'potencial_instalada_requerida_irrigacao', title: 'Potencial Instalada Requerida Irrigação Meta', suffix: ' Mvh', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.potencial_instalada_requerida_irrigacao || null },
-            { name: 'potencial_instalada_requerida_irrigacao_meta', title: 'Potencial Instalada Requerida Irrigação Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.potencial_instalada_requerida_irrigacao_meta || null },
+            { name: 'meta_producao_energia_irrigacao', title: 'Meta de Produção de Energia Irrigação', suffix: ' Mvh', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.meta_producao_energia_irrigacao || null },
+            { name: 'meta_producao_energia_irrigacao_meta', title: 'Meta de Produção de Energia Irrigação', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.meta_producao_energia_irrigacao_meta || null },            
 
-
-            { name: 'excedente_meta_producao_energia_irrigacao', title: 'Meta de Produção de Energia Irrigação', suffix: ' Mvh', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.excedente_meta_producao_energia_irrigacao || null },
-            { name: 'excedente_meta_producao_energia_irrigacao_meta', title: 'Meta de Produção de Energia Irrigação Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.excedente_meta_producao_energia_irrigacao_meta || null },
-
-
-            { name: 'potencial_instalada_requerida_irrigacao', title: 'Potencial Instalada Requerida Irrigação', suffix: ' Mvh', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.potencial_instalada_requerida_irrigacao || null },
-            { name: 'potencial_instalada_requerida_irrigacao_meta', title: 'Potencial Instalada Requerida Irrigação Meta', suffix: ' Mvh', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.potencial_instalada_requerida_irrigacao_meta || null },
 
             // Exportação de energia
             { name: '', title: 'Exportação de energia', suffix: '', isGroup: true, tabspace: 1, value: null },
@@ -341,6 +318,7 @@ export const SafraProvider = ({ children }) => {
 
             { name: 'exportacao_energia', title: 'Exportação de energia', suffix: ' Mv/Mês', isGroup: false, isMeta: false, tabspace: 2, value: lancamento.exportacao_energia || null },
             { name: 'exportacao_energia_meta', title: 'Exportação de energia Meta', suffix: ' Mv/Mês', isGroup: false, isMeta: true, tabspace: 2, value: lancamento.exportacao_energia_meta || null },
+            
 
             // CÁLCULO DA EFICIÊNCIA
             { name: '', title: 'CÁLCULO DA EFICIÊNCIA', suffix: '', isGroup: true, isMeta: false, tabspace: 0, value: null },

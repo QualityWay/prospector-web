@@ -28,12 +28,6 @@ return new class extends Migration
             
             $table->decimal("extracao_moenda", 11, 3)->default(0)->nullable();
             $table->decimal("extracao_moenda_meta", 11, 3)->default(0)->nullable(); 
-
-            $table->decimal("moagem_horaria", 11, 3)->default(0)->nullable();
-            $table->decimal("moagem_horaria_meta", 11, 3)->default(0)->nullable(); 
-
-            $table->decimal("extracao_moenda", 11, 3)->default(0)->nullable();
-            $table->decimal("extracao_moenda_meta", 11, 3)->default(0)->nullable();
             
             $table->decimal("moagem_real_media", 11, 3)->default(0)->nullable();
             $table->decimal("moagem_real_media_meta", 11, 3)->default(0)->nullable(); 
@@ -103,8 +97,8 @@ return new class extends Migration
             $table->decimal("aproveitamento_tempo_industrial", 11, 3)->default(0)->nullable();
             $table->decimal("aproveitamento_tempo_industrial_meta", 11, 3)->default(0)->nullable(); 
             
-            $table->decimal("aproveitamento_tempo_agrícola", 11, 3)->default(0)->nullable();
-            $table->decimal("aproveitamento_tempo_agrícola_meta", 11, 3)->default(0)->nullable(); 
+            $table->decimal("aproveitamento_tempo_agricola_cct", 11, 3)->default(0)->nullable();
+            $table->decimal("aproveitamento_tempo_agricola_cct_meta", 11, 3)->default(0)->nullable(); 
             
             $table->decimal("aproveitamento_tempo", 11, 3)->default(0)->nullable();
             $table->decimal("aproveitamento_tempo_meta", 11, 3)->default(0)->nullable(); 
@@ -127,11 +121,11 @@ return new class extends Migration
             $table->decimal("alcool_hidratado", 11, 3)->default(0)->nullable();
             $table->decimal("alcool_hidratado_meta", 11, 3)->default(0)->nullable(); 
             
-            $table->decimal("alcool_anidro_ciclo_hexano", 11, 3)->default(0)->nullable();
-            $table->decimal("alcool_anidro_ciclo_hexano_meta", 11, 3)->default(0)->nullable(); 
+            $table->decimal("alcool_anidro_ciclohexano", 11, 3)->default(0)->nullable();
+            $table->decimal("alcool_anidro_ciclohexano_meta", 11, 3)->default(0)->nullable(); 
                      
-            $table->decimal("alcool_anidro_peneira_molecular", 11, 3)->default(0)->nullable();
-            $table->decimal("alcool_anidro_peneira_molecular_meta", 11, 3)->default(0)->nullable(); 
+            $table->decimal("alcoolanidro_peneira_molecular", 11, 3)->default(0)->nullable();
+            $table->decimal("alcoolanidro_peneira_molecular_meta", 11, 3)->default(0)->nullable(); 
 
 
             // CÁLCULO DAS PERDAS               
@@ -166,14 +160,20 @@ return new class extends Migration
             $table->decimal("producao_alcool_hidratado_mes", 11, 3)->default(0)->nullable();
             $table->decimal("producao_alcool_hidratado_mes_meta", 11, 3)->default(0)->nullable(); 
 
-            $table->decimal("art_perdido_residuaria_geral", 11, 3)->default(0)->nullable();
-            $table->decimal("art_perdido_residuaria_geral_meta", 11, 3)->default(0)->nullable(); 
+            // $table->decimal("art_perdido_residuaria_geral", 11, 3)->default(0)->nullable();
+            // $table->decimal("art_perdido_residuaria_geral_meta", 11, 3)->default(0)->nullable(); 
 
             $table->decimal("producao_alcool_anidro_dia", 11, 3)->default(0)->nullable();
             $table->decimal("producao_alcool_anidro_dia_meta", 11, 3)->default(0)->nullable(); 
 
             $table->decimal("producao_alcool_anidro_mes", 11, 3)->default(0)->nullable();
             $table->decimal("producao_alcool_anidro_mes_meta", 11, 3)->default(0)->nullable(); 
+
+            $table->decimal("producao_alcool_total_dia", 11, 3)->default(0)->nullable();
+            $table->decimal("producao_alcool_total_dia_meta", 11, 3)->default(0)->nullable(); 
+
+            $table->decimal("producao_alcool_total_mes", 11, 3)->default(0)->nullable();
+            $table->decimal("producao_alcool_total_mes_meta", 11, 3)->default(0)->nullable(); 
 
             $table->decimal("rgd", 11, 3)->default(0)->nullable();
             $table->decimal("rgd_meta", 11, 3)->default(0)->nullable(); 
@@ -209,8 +209,8 @@ return new class extends Migration
 
 
            // GERAÇÃO DE VAPOR
-           $table->decimal("producao_vapor", 11, 3)->default(0)->nullable();
-           $table->decimal("producao_vapor_meta", 11, 3)->default(0)->nullable(); 
+           $table->decimal("producao_vapor_hora", 11, 3)->default(0)->nullable();
+           $table->decimal("producao_vapor_hora_meta", 11, 3)->default(0)->nullable(); 
 
            $table->decimal("producao_vapor_mes", 11, 3)->default(0)->nullable();
            $table->decimal("producao_vapor_mes_meta", 11, 3)->default(0)->nullable(); 
@@ -246,31 +246,19 @@ return new class extends Migration
            $table->decimal("consumo_energia_silo_armazem_graos", 11, 3)->default(0)->nullable();
            $table->decimal("consumo_energia_silo_armazem_graos_meta", 11, 3)->default(0)->nullable();
 
-           $table->decimal("consumo_energia_industria", 11, 3)->default(0)->nullable();
-           $table->decimal("consumo_energia_industria_meta", 11, 3)->default(0)->nullable();
-
 
            // Excedente de Energia
            $table->decimal("potencial_instalada_requerida_irrigacao", 11, 3)->default(0)->nullable();
            $table->decimal("potencial_instalada_requerida_irrigacao_meta", 11, 3)->default(0)->nullable();
 
            $table->decimal("potencia_consumida_irrigacao", 11, 3)->default(0)->nullable();
-           $table->decimal("potencia_consumida_irrigacao_meta", 11, 3)->default(0)->nullable();
+           $table->decimal("potencia_consumida_irrigacao_meta", 11, 3)->default(0)->nullable();        
 
-           $table->decimal("potencial_instalada_requerida_irrigacao", 11, 3)->default(0)->nullable();
-           $table->decimal("potencial_instalada_requerida_irrigacao_meta", 11, 3)->default(0)->nullable();
-
-           $table->decimal("meta_disponibilidade_energia_irrigacao", 11, 3)->default(0)->nullable();
-           $table->decimal("meta_disponibilidade_energia_irrigacao_meta", 11, 3)->default(0)->nullable();
-
-           $table->decimal("potencial_instalada_requerida_irrigacao", 11, 3)->default(0)->nullable();
-           $table->decimal("potencial_instalada_requerida_irrigacao_meta", 11, 3)->default(0)->nullable();
+           $table->decimal("excedente_meta_disponibilidade_energia_irrigacao", 11, 3)->default(0)->nullable();
+           $table->decimal("excedente_meta_disponibilidade_energia_irrigacao_meta", 11, 3)->default(0)->nullable();
 
            $table->decimal("excedente_meta_producao_energia_irrigacao", 11, 3)->default(0)->nullable();
-           $table->decimal("excedente_meta_producao_energia_irrigacao_meta", 11, 3)->default(0)->nullable();
-
-           $table->decimal("potencial_instalada_requerida_irrigacao", 11, 3)->default(0)->nullable();
-           $table->decimal("potencial_instalada_requerida_irrigacao_meta", 11, 3)->default(0)->nullable();
+           $table->decimal("excedente_meta_producao_energia_irrigacao_meta", 11, 3)->default(0)->nullable();         
 
 
            // Exportação de energia
@@ -282,6 +270,8 @@ return new class extends Migration
 
            $table->decimal("exportacao_energia", 11, 3)->default(0)->nullable();
            $table->decimal("exportacao_energia_meta", 11, 3)->default(0)->nullable();
+
+           
 
 
            // CÁLCULO DA EFICIÊNCIA

@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { SafraContex } from '@/Context/SafraContex';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useRef, setFocus } from 'react';
 import Loading from '@/Components/Loading';
 import { styled } from '@mui/material/styles';
 import { Table, TableBody, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
@@ -10,7 +10,6 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import NumberInput from '@/Components/NumberInput';
 import SaveIcon from '@mui/icons-material/Save';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CircularProgress from '@mui/material/CircularProgress';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -44,9 +43,9 @@ const FormControl = ({ index, value, suffix, register, control, onChange, lineNu
             decimalScale={3}
             fixedDecimalScale
             suffix={suffix}
-            {...register(`lancamentos.${index}.value`)} // Registra o input
+            {...register(`lancamentos.${index}.value`)} 
             control={control}
-            onChange={handleInputChange} // Usa o novo manipulador
+            onChange={handleInputChange} 
         />
     );
 };
@@ -111,14 +110,14 @@ const Page = (props) => {
         handleSubmit,
         control,
         lancamento,      
-    } = useContext(SafraContex);        
-   
+    } = useContext(SafraContex);            
     
     const pairs = createPairs(fields);  
+
     const [inputValues, setInputValues] = useState(() => {       
         return pairs.map(() => ({ value1: 0, value2: 0, total: 0 }));
-    });
-
+    }); 
+   
     const onSubmit = (data) => {        
         confirmSave(data);
     };
@@ -132,21 +131,40 @@ const Page = (props) => {
             currentValues.value2 = parseFloat(newValue) || 0;
         } else {
             currentValues.value1 = parseFloat(newValue) || 0;
-        }
+        }              
     
         // Verifica se value2 é 0 ou não e calcula o total
         if (currentValues.value2 === 0) {
             currentValues.total = NaN; 
         } else if (currentValues.value1 !== 0) {
-            currentValues.total = (currentValues.value1 / currentValues.value2) * 100; 
+            currentValues.total = ((currentValues.value1 / currentValues.value2) * 100).toFixed(2);
         } else {
             currentValues.total = 0; 
         }
     
         updatedValues[lineNumber] = currentValues; 
         setInputValues(updatedValues);     
+
+        console.log("inputValues:", updatedValues);
         
     };
+
+
+    const handleFieldChange = (field, lineNumber, isMeta) => {
+        if (field.value !== null) {           
+            const value1 = parseFloat(field.value) || 0; 
+            console.log(`Field com valor: ${value1}`);
+            
+        } else {
+            console.log(`Field sem valor.`);
+        }     
+    };     
+
+    const selectedYear = lancamento.data
+        ? new Date(parseInt(lancamento.data.substring(0, 4)), 0, 1)
+        : new Date(parseInt(year), 0, 1
+    );
+
 
     return (
         <AuthenticatedLayout user={props.auth.user}>
@@ -158,8 +176,9 @@ const Page = (props) => {
                         <YearPicker
                             className="flex-none w-14 h-14"
                             label="Safra"                                
-                            value={lancamento.safra}
+                            value={selectedYear}
                             onChange={yearChange}
+                            disabled
                         />
                         <div className="grow text-center text-lg">Lançamentos dia {`${month}/${year}`}</div>
                         <Button
@@ -198,6 +217,8 @@ const Page = (props) => {
                                         {pairs.map((pair, rowIndex) => (
                                             <TableRow key={rowIndex}>
                                                 {pair.map((field, colIndex) => {
+                                                   
+                                                    handleFieldChange(field);
                                                     return (
                                                         <TableItem
                                                             key={colIndex}
@@ -208,9 +229,9 @@ const Page = (props) => {
                                                             suffix={field.suffix}
                                                             register={register}
                                                             control={control}
-                                                            isMeta={field.isMeta}
-                                                            value={field.value}
-                                                            onChange={handleChange}                                                            
+                                                            isMeta={field.isMeta}                                                           
+                                                            value={field.value || ''}  
+                                                            onChange={field.value ? null : handleChange}                                                            
                                                         />
                                                     );
                                                 })}

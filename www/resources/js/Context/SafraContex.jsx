@@ -395,7 +395,10 @@ export const SafraProvider = ({ children }) => {
 
             { name: 'torta_produzida', title: 'Torta Produzida', suffix: ' Kg', isGroup: false, isMeta: false, tabspace: 1, value: lancamento.torta_produzida || null },
             { name: 'torta_produzida_meta', title: 'Torta Produzida Meta', suffix: ' Kg', isGroup: false, isMeta: true, tabspace: 1, value: lancamento.torta_produzida_meta || null },
-        ]);
+        ], {
+            shouldFocus: true,
+            focusIndex: 0,
+        });
     }, [lancamento]);
 
     const yearChange = (value) => {

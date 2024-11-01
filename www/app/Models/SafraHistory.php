@@ -199,6 +199,6 @@ class SafraHistory extends Model
         "vinhaca_meta",
         "bagaco_meta",
         "impurezas_mesa_meta",
-        "torta_produzida_meta",
+        "torta_produzida_meta"
     ];
 }

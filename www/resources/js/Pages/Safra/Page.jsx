@@ -122,44 +122,56 @@ const Page = (props) => {
         confirmSave(data);
     };
 
+    useEffect(() => {
+        pairs.forEach((pair, rowIndex) => {
+            const value1 = pair[0].value || 0; // Valor do Item
+            const value2 = pair[1]?.value || 0; // Valor Meta (se existir)
+
+            if (value1 > 0 && value2 > 0) {
+                const total = ((value1 / value2) * 100).toFixed(2);
+                setInputValues(prevValues => {
+                    const updatedValues = [...prevValues];
+                    updatedValues[rowIndex] = { value1: value1, value2: value2, total: total };
+                    return updatedValues;
+                });
+            }
+        });
+    }, [pairs]); // Dependência: quando pairs mudar, recalcula as porcentagens
+
     const handleChange = (newValue, lineNumber, isMeta) => {
-        const updatedValues = [...inputValues]; 
-        const currentValues = { ...updatedValues[lineNumber] }; 
-    
+        const updatedValues = [...inputValues];
+        const currentValues = { ...updatedValues[lineNumber] };
+
         // Atualiza o valor correto com base em isMeta
         if (isMeta) {
-            currentValues.value2 = parseFloat(newValue) || 0;
+            // Atualiza value2 se newValue for válido
+            if (!isNaN(parseFloat(newValue))) {
+                currentValues.value2 = parseFloat(newValue);
+            }
         } else {
-            currentValues.value1 = parseFloat(newValue) || 0;
-        }              
-    
+            // Atualiza value1 se newValue for válido
+            if (!isNaN(parseFloat(newValue))) {
+                currentValues.value1 = parseFloat(newValue);
+            }
+        }
+
         // Verifica se value2 é 0 ou não e calcula o total
         if (currentValues.value2 === 0) {
-            currentValues.total = NaN; 
+            currentValues.total = NaN;
         } else if (currentValues.value1 !== 0) {
             currentValues.total = ((currentValues.value1 / currentValues.value2) * 100).toFixed(2);
         } else {
-            currentValues.total = 0; 
+            currentValues.total = 0;
         }
-    
-        updatedValues[lineNumber] = currentValues; 
-        setInputValues(updatedValues);     
 
-        console.log("inputValues:", updatedValues);
-        
+        updatedValues[lineNumber] = currentValues;
+        setInputValues(updatedValues);
     };
 
 
-    const handleFieldChange = (field, lineNumber, isMeta) => {
-        if (field.value !== null) {           
-            const value1 = parseFloat(field.value) || 0; 
-            console.log(`Field com valor: ${value1}`);
-            
-        } else {
-            console.log(`Field sem valor.`);
-        }     
-    };     
+    
 
+    //YearPicker
     const selectedYear = lancamento.data
         ? new Date(parseInt(lancamento.data.substring(0, 4)), 0, 1)
         : new Date(parseInt(year), 0, 1
@@ -216,9 +228,8 @@ const Page = (props) => {
                                     <TableBody>
                                         {pairs.map((pair, rowIndex) => (
                                             <TableRow key={rowIndex}>
-                                                {pair.map((field, colIndex) => {
-                                                   
-                                                    handleFieldChange(field);
+                                                {pair.map((field, colIndex) => {                                                 
+                                                    
                                                     return (
                                                         <TableItem
                                                             key={colIndex}
@@ -238,14 +249,18 @@ const Page = (props) => {
                                                 {!pair.some(field => field.isGroup) && (
                                                     <StyledTableCell className='text-center'>
                                                     <div>
-                                                        {inputValues[rowIndex]?.value1 === 0 && inputValues[rowIndex]?.value2 === 0
-                                                            ? '-' 
-                                                            : (inputValues[rowIndex]?.value1 !== 0 && (inputValues[rowIndex]?.value2 === 0 || isNaN(inputValues[rowIndex]?.total)))
-                                                            ? '-'
-                                                            : `${inputValues[rowIndex]?.total}%`} 
+                                                        {inputValues[rowIndex]?.value1 == null || inputValues[rowIndex]?.value2 == null ? (
+                                                            '-'  // Se não houver valores, exibe '-'
+                                                        ) : inputValues[rowIndex]?.value1 === 0 && inputValues[rowIndex]?.value2 === 0 ? (
+                                                            '-'
+                                                        ) : inputValues[rowIndex]?.value2 === 0 || isNaN(inputValues[rowIndex]?.total) ? (
+                                                            '-'
+                                                        ) : (
+                                                            `${inputValues[rowIndex]?.total}%`
+                                                        )}
                                                     </div>
-                                                    </StyledTableCell>
-                                                )}
+                                                </StyledTableCell>                                                                                                  
+                                                )}                                                                                           
                                             </TableRow>
                                         ))}
                                     </TableBody>
